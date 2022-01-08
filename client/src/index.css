@@ -20,4 +20,5 @@ input {
 p {
     margin: 0;
     white-space: pre-line;
+    font-size: 15px;
 }

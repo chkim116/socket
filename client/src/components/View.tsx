@@ -119,7 +119,6 @@ const ChatMsgBody = styled.div`
     overflow-y: auto;
 `;
 
-// TODO: 채팅창 색 변경
 const ChatMsg = styled.div<{ chatType: ChatType }>`
     display: flex;
     flex-direction: column;
@@ -128,7 +127,7 @@ const ChatMsg = styled.div<{ chatType: ChatType }>`
 
     & > div {
         width: fit-content;
-        padding: 1em;
+        padding: 0.8em 1em;
         border-radius: 20px;
     }
 
@@ -137,13 +136,14 @@ const ChatMsg = styled.div<{ chatType: ChatType }>`
             ? css`
                   align-self: flex-start;
                   & > div {
-                      background-color: #dbdbdb;
+                      background-color: #ecf0f1;
                   }
               `
             : css`
                   align-self: flex-end;
                   & > div {
-                      background-color: #dbdbdb;
+                      background-color: #4ac587;
+                      color: #ffffff;
                   }
               `}
 `;
