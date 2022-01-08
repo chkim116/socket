@@ -1,0 +1,4 @@
+{
+    "ignore": ["src/client/*"],
+    "exec": "ts-node src/server.ts"
+}
