@@ -1,28 +1,50 @@
 import express from "express";
 import http from "http";
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 
-const app = express();
-
-const httpServer = http.createServer(app);
-const socket = new Server(httpServer, {
-    cors: {
-        origin: "*",
-    },
+const httpServer: http.Server = http.createServer(express());
+const socket: Server = new Server(httpServer, {
+    cors: { origin: "*" },
 });
 
-socket.on("connection", (io) => {
-    io.emit("connected", "socket is connected");
+class App {
+    run() {
+        httpServer.listen(8080, () =>
+            console.log("http://localhost:8080 is running")
+        );
+    }
+}
 
-    io.on("message", (msg) => {
-        console.log(msg);
-    });
+class Main extends App {
+    io: Socket | null = null;
 
-    io.on("disconnect", () => {
-        console.log("disconnect socket");
-    });
-});
+    connect() {
+        this.io?.emit("connected", true);
+    }
 
-httpServer.listen(8080, () => {
-    console.log("http://localhost:8080 is running");
-});
+    disconnect() {
+        this.io?.on("disconnect", () => {
+            console.log("disconnect socket");
+        });
+    }
+
+    logger() {
+        this.io?.onAny((ev, ...args) => console.log(ev, args));
+    }
+
+    connection() {
+        socket.on("connection", (io) => {
+            this.io = io;
+            if (!this.io) throw new Error("can not find socket io");
+            console.log("connect on server");
+            this.logger();
+            this.connect();
+            this.disconnect();
+        });
+    }
+}
+
+const server = new Main();
+
+server.run();
+server.connection();
