@@ -32,6 +32,13 @@ class Main extends App {
         this.io?.onAny((ev, ...args) => console.log(ev, args));
     }
 
+    sendGuide() {
+        this.io?.emit("welcome", {
+            type: 1,
+            message: "welcome chat bot, '-help' for tips",
+        });
+    }
+
     connection() {
         socket.on("connection", (io) => {
             this.io = io;
@@ -40,6 +47,8 @@ class Main extends App {
             this.logger();
             this.connect();
             this.disconnect();
+
+            this.sendGuide();
         });
     }
 }
