@@ -56,7 +56,17 @@ const View = () => {
                     {chatMsg.map((chat, index) => (
                         <ChatMsg key={index} chatType={chat.type}>
                             <div>
-                                <p>{chat.message}</p>
+                                {/http/.test(chat.message) ? (
+                                    <a
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        href={chat.message}
+                                    >
+                                        {chat.message}
+                                    </a>
+                                ) : (
+                                    <p>{chat.message}</p>
+                                )}
                             </div>
                         </ChatMsg>
                     ))}
