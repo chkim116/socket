@@ -1,6 +1,7 @@
 import express from "express";
 import http from "http";
 import { Server, Socket } from "socket.io";
+import answers from "./lib/answers.json";
 
 const httpServer: http.Server = http.createServer(express());
 const socket: Server = new Server(httpServer, {
@@ -39,6 +40,25 @@ class Main extends App {
         });
     }
 
+    sendAnswer() {
+        this.io?.on(
+            "bot",
+            (
+                value: string,
+                fn: (msg: { type: 0 | 1; message: string }) => void
+            ) => {
+                const index = answers.findIndex(
+                    ({ question }) => question === value
+                );
+                if (index > 0) {
+                    fn({ type: 1, message: answers[index].answer });
+                } else {
+                    fn({ type: 1, message: "올바르지 않은 메시지입니다." });
+                }
+            }
+        );
+    }
+
     connection() {
         socket.on("connection", (io) => {
             this.io = io;
@@ -49,6 +69,7 @@ class Main extends App {
             this.disconnect();
 
             this.sendGuide();
+            this.sendAnswer();
         });
     }
 }

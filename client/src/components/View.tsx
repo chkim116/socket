@@ -1,6 +1,6 @@
 import { useSocket } from "./useSocket";
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { css } from "@emotion/react";
 
 enum ChatType {
@@ -16,20 +16,30 @@ interface ChatMessage {
 const View = () => {
     const { isConnect, socket } = useSocket();
     const [chatMsg, setChatMsg] = useState<ChatMessage[]>([]);
+    const [inputValue, setInputValue] = useState("");
+
+    const handleChange = useCallback((e) => {
+        const { value } = e.target;
+        setInputValue(value);
+    }, []);
+
+    const handleSubmit = useCallback(
+        (e) => {
+            e.preventDefault();
+            if (!inputValue) return;
+
+            setChatMsg((prev) => [...prev, { type: 0, message: inputValue }]);
+            setInputValue("");
+            socket.emit("bot", inputValue, (msg: ChatMessage) =>
+                setChatMsg((prev) => [...prev, msg])
+            );
+        },
+        [inputValue, socket]
+    );
 
     useEffect(() => {
         socket.on("welcome", (msg: ChatMessage) => {
-            setChatMsg([
-                msg,
-                { type: 0, message: "-help" },
-                { type: 0, message: "11" },
-                { type: 0, message: "11" },
-                {
-                    type: 1,
-                    message:
-                        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus ex necessitatibus officia dolor reprehenderit, quaerat nisi accusamus eligendi amet voluptatibus, obcaecati inventore animi voluptatem nostrum, nesciunt quas iste. Rem, doloremque.",
-                },
-            ]);
+            setChatMsg([msg]);
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -52,9 +62,14 @@ const View = () => {
                     ))}
                 </ChatMsgBody>
 
-                <ChatInput>
-                    <input type="text" placeholder="message" />
-                </ChatInput>
+                <ChatInputForm onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        placeholder="message"
+                        onChange={handleChange}
+                        value={inputValue}
+                    />
+                </ChatInputForm>
             </ChatBody>
         </Container>
     );
@@ -131,7 +146,7 @@ const ChatMsg = styled.div<{ chatType: ChatType }>`
               `}
 `;
 
-const ChatInput = styled.div`
+const ChatInputForm = styled.form`
     width: 100%;
     margin-top: 1em;
     padding: 0.8em 1.2em;
