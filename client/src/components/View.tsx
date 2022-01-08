@@ -23,6 +23,20 @@ const View = () => {
         setInputValue(value);
     }, []);
 
+    const messageRef = useCallback((node: HTMLDivElement | null) => {
+        if (!node) return;
+        const observer = new IntersectionObserver(
+            (entries: IntersectionObserverEntry[]) => {
+                const entry: IntersectionObserverEntry = entries[0];
+                entry.target.scrollIntoView({
+                    behavior: "smooth",
+                });
+                observer.disconnect();
+            }
+        );
+        observer.observe(node);
+    }, []);
+
     const handleSubmit = useCallback(
         (e) => {
             e.preventDefault();
@@ -54,7 +68,13 @@ const View = () => {
             <ChatBody>
                 <ChatMsgBody>
                     {chatMsg.map((chat, index) => (
-                        <ChatMsg key={index} chatType={chat.type}>
+                        <ChatMsg
+                            ref={
+                                chatMsg.length - 1 === index ? messageRef : null
+                            }
+                            key={index}
+                            chatType={chat.type}
+                        >
                             <div>
                                 {/http/.test(chat.message) ? (
                                     <a
