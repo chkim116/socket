@@ -1,42 +1,30 @@
 [
     {
-        "question": "hi",
-        "answer": "hello"
-    },
-    {
         "question": "-help",
-        "answer": "You can find a list of questions/answers here: https://github.com/kevinmartinez/websocket-chatbot#api"
+        "answer": "1. 이름 \n 2. 직업 \n 3. 포트폴리오 \n 4. 깃 \n 5. 소스코드"
     },
     {
-        "question": "who are you?",
-        "answer": "i am a bot"
+        "question": "hello",
+        "answer": "world"
     },
     {
-        "question": "where do you come from?",
-        "answer": "The machine world"
+        "question": "이름",
+        "answer": "kim changhoe"
     },
     {
-        "question": "matrix?",
-        "answer": "Yes, i am the one"
+        "question": "직업",
+        "answer": "개발자"
     },
     {
-        "question": "what is love?",
-        "answer": "Baby dont't hurt me, don't hurt me..."
+        "question": "포트폴리오",
+        "answer": "https://portfolio.kormelon.com"
     },
     {
-        "question": "where can i learn css?",
-        "answer": "http://www.teamtreehouse.com"
+        "question": "깃",
+        "answer": "https://github.com/chkim116"
     },
     {
-        "question": "how old are you?",
-        "answer": "I am 0101001101 years old"
-    },
-    {
-        "question": "what is the meaning of life?",
-        "answer": "42"
-    },
-    {
-        "question": "bye",
-        "answer": "ciao"
+        "question": "소스코드",
+        "answer": "https://github.com/chkim116/socket"
     }
 ]

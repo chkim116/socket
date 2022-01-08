@@ -36,7 +36,7 @@ class Main extends App {
     sendGuide() {
         this.io?.emit("welcome", {
             type: 1,
-            message: "welcome chat bot, '-help' for tips",
+            message: "'-help'로 명령어를 확인해 보세요.",
         });
     }
 
@@ -48,13 +48,15 @@ class Main extends App {
                 fn: (msg: { type: 0 | 1; message: string }) => void
             ) => {
                 const index = answers.findIndex(
-                    ({ question }) => question === value
+                    ({ question }) => question === value.toLowerCase()
                 );
-                if (index > 0) {
-                    fn({ type: 1, message: answers[index].answer });
-                } else {
-                    fn({ type: 1, message: "올바르지 않은 메시지입니다." });
-                }
+                fn({
+                    type: 1,
+                    message:
+                        index > -1
+                            ? answers[index].answer
+                            : "올바르지 않은 키워드입니다.",
+                });
             }
         );
     }

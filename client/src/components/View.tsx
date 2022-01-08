@@ -105,8 +105,8 @@ const ChatBody = styled.div`
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
+    height: 70vh;
     margin: 0 auto;
-    min-height: 500px;
     background-color: #ffffff;
     border: 1px solid #dbdbdb;
 `;
@@ -115,6 +115,8 @@ const ChatMsgBody = styled.div`
     display: flex;
     flex-direction: column;
     padding: 1em;
+    height: 100%;
+    overflow-y: auto;
 `;
 
 // TODO: 채팅창 색 변경
@@ -148,7 +150,6 @@ const ChatMsg = styled.div<{ chatType: ChatType }>`
 
 const ChatInputForm = styled.form`
     width: 100%;
-    margin-top: 1em;
     padding: 0.8em 1.2em;
     border-top: 1px solid #dbdbdb;
 
